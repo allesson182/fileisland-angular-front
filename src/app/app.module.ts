@@ -15,6 +15,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -35,7 +38,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatIconModule,
     MatButtonModule,
     MatButtonToggleModule,
-    NgbModule
+    NgbModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
 
   ],
   providers: [],

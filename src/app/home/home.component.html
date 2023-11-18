@@ -1,1 +1,26 @@
-<p>home works!</p>
+<div class="container">
+  <form class="form">
+    <mat-form-field class="full-width">
+      <mat-label class="label-search">Search your File</mat-label>
+      <input matInput placeholder="Ex. My Image.jpg" [(ngModel)]="searchWord" [ngModelOptions]="{standalone: true}" (input)="onSearch()">
+    </mat-form-field>
+  </form>
+
+
+  <div class="row">
+    <div class="col-md-3" *ngFor="let file of files">
+      <div class="card text-white bg-dark mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center ">{{file.nome}}
+          <div>
+          <mat-icon class="delete-icon" >delete</mat-icon>
+          <mat-icon class="download-icon" (click)="download()">download</mat-icon></div>
+          </div>
+        <div class="card-body">
+          <h5 class="card-title">Arquivo de imagem</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
