@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {FileStorageService} from "../services/File-storage.service";
 
 @Component({
   selector: 'app-home',
@@ -7,11 +8,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public files2: any[] = [];
- filesFull = [{nome: 'nome 1'}, {nome:'nome 2'}, {nome:'nome 3'}, {nome:'nome 4'}, {nome:'nome 5'}, {nome:'nome 6'}, {nome:'nome 7'}, {nome:'nome 8'}, {nome:'nome 9'}, {nome:'nome 10'}, {nome:'nome 11'}, {nome:'nome 12'}, {nome:'nome 13'}, {nome:'nome 14'}, {nome:'nome 15'}, {nome:'nome16'}, {nome:'nome17'}, {nome:'nome18'}, {nome:'nome19'}, {nome:'nome20'}, {nome:'nome21'}, {nome:'nome22'}, {nome:'nome23'}, {nome:'nome24'}, {nome:'nome25'}, {nome:'nome26'}, {nome:'nome27'}, {nome:'nome28'}, {nome:'nome29'}, {nome:'nome30'}, {nome:'nome31'}, {nome:'nome32'}, {nome:'nome33'}, {nome:'nome34'}, {nome:'nome35'}, {nome:'nome36'}, {nome:'nome37'}, {nome:'nome38'}, {nome:'nome39'}, {nome:'nome40'}, {nome:'nome41'}, {nome:'nome42'}, {nome:'nome43'}, {nome:'nome44'}, {nome:'nome45'}, {nome:'nome46'}, {nome:'nome47'}, {nome:'nome48'}, {nome:'nome49'}, {nome:'nome50'}];
- files:any;
- searchWord: string = '';
-   constructor(private _snackBar: MatSnackBar) { }
+
+  public filesForUpload: any[] = [];
+  filesFull: any[];
+  files:any;
+  searchWord: string = '';
+   constructor(private _snackBar: MatSnackBar, private fileStorageService: FileStorageService) { }
 
   ngOnInit(): void {
      this.files = this.filesFull;
@@ -31,8 +33,8 @@ export class HomeComponent implements OnInit {
     console.log('download')
   }
   onFileChange(pFileList: File[]){
-    this.files2 = pFileList;
-    console.log(this.files2)
+    this.filesForUpload = pFileList;
+    console.log(this.filesForUpload)
     this._snackBar.open("Successfully upload!", 'Close', {
       duration: 2000,
     });
@@ -45,9 +47,40 @@ export class HomeComponent implements OnInit {
 
   }
   deleteFile(f){
-    this.files2 = this.files.filter(function(w){ return w.name != f.name });
-    this._snackBar.open("Successfully delete!", 'Close', {
-      duration: 2000,
+    this.filesForUpload = this.files.filter(function(w){ return w.name != f.name });
+    this.fileStorageService.deleteFile(f.name).subscribe((data) => {
+      console.log("Arquivo deletado com sucesso!");
+    }, error => {
+      console.log(error);
     });
+
+  }
+
+  downloadFile() {
+    const bucketName = 'seu-bucket'; // Substitua pelo nome do seu bucket
+    const objectKey = 'seu-arquivo.txt'; // Substitua pelo nome do seu arquivo
+    this.fileStorageService.downloadFile(objectKey).subscribe((data) => {
+      const blob = new Blob([data], { type: 'application/octet-stream' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = objectKey; // Nome do arquivo
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+  uploadFile() {
+    this.filesForUpload.forEach((file) => {
+      this.fileStorageService.uploadFile(file.name, file).subscribe((data) => {
+        console.log("Upload realizado com sucesso!");
+      }, error => {
+        console.log(error);
+      });
+    });
+  }
+
+  isEmpty() {
+    return this.filesForUpload.length == 0;
   }
 }

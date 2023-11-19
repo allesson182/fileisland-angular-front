@@ -13,7 +13,7 @@
     <div>
       <mat-list>
         <h3 mat-subheader>Files for upload</h3>
-        <mat-list-item *ngFor="let file of files2">
+        <mat-list-item *ngFor="let file of filesForUpload">
           <mat-icon mat-list-icon>folder</mat-icon>
           <h4 mat-line>{{file.name}}</h4>
           <button mat-raised-button color="warn" (click)="deleteFile(file)">Delete</button>
@@ -22,12 +22,18 @@
       </mat-list>
     </div>
   </div>
-  <form class="form">
-    <mat-form-field class="full-width">
-      <mat-label class="label-search">Search your File</mat-label>
-      <input matInput placeholder="Ex. My Image.jpg" [(ngModel)]="searchWord" [ngModelOptions]="{standalone: true}" (input)="onSearch()">
-    </mat-form-field>
-  </form>
+  <div>
+      <form class="form">
+        <mat-form-field class="full-width">
+          <mat-label class="label-search">Search your File</mat-label>
+          <input matInput placeholder="Ex. My Image.jpg" [(ngModel)]="searchWord" [ngModelOptions]="{standalone: true}" (input)="onSearch()">
+        </mat-form-field>
+      </form>
+  </div>
+
+  <div *ngIf="this.isEmpty()">
+    <h3 class="text-center">No files Yet</h3>
+  </div>
 
 
   <div class="row">
@@ -45,5 +51,7 @@
       </div>
     </div>
   </div>
+
+
 
 </div>

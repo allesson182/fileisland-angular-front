@@ -20,6 +20,7 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {FileDragNDropDirective} from "./home/file-drag-n-drop.directive";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     CreateUserComponent,
     LoginComponent,
     FileDragNDropDirective
+
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    HttpClientModule
 
   ],
   providers: [],

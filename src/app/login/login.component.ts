@@ -2,6 +2,9 @@
 
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {UserService} from "../services/User.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -13,16 +16,18 @@ export class LoginComponent {
   password: string = '';
   rememberMe: boolean = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private toast:MatSnackBar, private router: Router) {}
 
   onSubmit(): void {
-    const loginSuccessful = this.authService.login(this.username, this.password, this.rememberMe);
+     this.authService.login(this.username, this.password).subscribe((data) => {
+        this.authService.saveUserOnLocalStorage(data.username, data.token, data.email, data.id);
+        this.toast.open("Login efetuado com sucesso!", 'Close', {});
+        this.router.navigate(['/home']);
+     }, error => {
+        console.log(error);
+        this.toast.open("Erro ao efetuar login!", 'Close', {});
+     });
 
-    if (loginSuccessful) {
-      // Redirecione para a página principal ou faça qualquer outra ação necessária após o login
-      console.log('Login bem-sucedido!');
-    } else {
-      console.log('Credenciais inválidas');
-    }
+
   }
 }

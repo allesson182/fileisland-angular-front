@@ -6,12 +6,12 @@
     <form (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username">
+        <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" [(ngModel)]="username">
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password">
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" [(ngModel)]="password">
       </div>
 
       <div class="form-check">
