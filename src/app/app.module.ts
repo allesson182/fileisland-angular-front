@@ -18,6 +18,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
+import {FileDragNDropDirective} from "./home/file-drag-n-drop.directive";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 @NgModule({
@@ -27,6 +29,7 @@ import {FormsModule} from "@angular/forms";
     HomeComponent,
     CreateUserComponent,
     LoginComponent,
+    FileDragNDropDirective
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import {FormsModule} from "@angular/forms";
     NgbModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatSnackBarModule
 
   ],
   providers: [],

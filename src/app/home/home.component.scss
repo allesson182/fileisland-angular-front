@@ -9,3 +9,28 @@
 .download-icon {
  cursor: pointer;
 }
+h3,h4,p{
+  font-family: Roboto, Arial, sans-serif;
+}
+
+.uploadzone {
+  min-height: 150px;
+  min-width: 300px;
+  display: table;
+  width: 100%;
+  background-color:   #eee;
+  border: 2px dashed #ccc;
+  cursor: pointer ;
+}
+
+.text-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.centered {
+  font-family: sans-serif;
+  font-size: 1.3em;
+  font-weight: bold;
+  text-align:center;
+}
