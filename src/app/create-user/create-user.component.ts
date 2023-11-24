@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-create-user',
@@ -9,13 +10,17 @@ export class CreateUserComponent implements OnInit {
   username: string = '';
   password: string = '';
   email: string = '';
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
   onSubmit(): void {
-    // Implemente a lógica de criação de usuário aqui
-    console.log('Usuário criado com sucesso!');
+    this.authService.createUser(this.username, this.password, this.email).subscribe((data) => {
+      console.log(data);
+    }, error => {
+      console.log(error);
+    });
+
   }
 }
