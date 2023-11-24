@@ -10,7 +10,7 @@ export class UserService {
   constructor(private authService: AuthService) { }
   public getLoggedUser(): User{
     var user = new User();
-    user.name = localStorage.getItem('username');
+    user.username = localStorage.getItem('username');
     user.email = localStorage.getItem('email');
     user.token = localStorage.getItem('token');
     user.id = Number.parseInt(localStorage.getItem('id'));
