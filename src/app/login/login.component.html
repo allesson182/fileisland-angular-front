@@ -1,7 +1,11 @@
 <!-- login.component.html -->
+<div class="login " style="
+background-image: url('assets/background-08.png')" >
+<div class="login-container ">
+  <div class="login-box justify-content-lg-start">
+  <div class="login-box justify-content-lg-between">
 
-<div class="login-container">
-  <div class="login-box">
+  <div class="login-box justify-content-lg-end">
     <h2>Login</h2>
     <form (ngSubmit)="onSubmit()">
       <div class="form-group">
@@ -14,13 +18,15 @@
         <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" [(ngModel)]="password">
       </div>
 
-      <div class="form-check">
+      <div class="form-check form-switch">
         <input type="checkbox" id="remember" name="remember" class="form-check-input">
         <label for="remember" class="form-check-label">Remember me</label>
       </div>
 
+
       <button type="submit" class="btn btn-primary">Login</button>
     </form>
   </div>
+</div>
 </div>
 
