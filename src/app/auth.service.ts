@@ -1,9 +1,8 @@
 // auth.service.ts
 
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {environment} from "../environments/environment";
+import {HttpService} from "./services/Http.Service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +11,10 @@ export class AuthService {
   private loggedIn = false;
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpService) { }
 
   login(username: string, password: string): Observable<any> {
-      return this.http.post(environment.backend+'/login', {login: username, password: password});
+      return this.http.post('/login', {login: username, password: password});
   }
   logout(): void {
     localStorage.removeItem('username');
@@ -25,12 +24,9 @@ export class AuthService {
     this.loggedIn = false;
   }
 
-  isLoggedIn(): boolean {
-    if (localStorage.getItem('username') != null) {
-      this.loggedIn = true;
-      return true;
-    }
-    return false;
+  isLoggedIn() {
+    this.loggedIn = false;
+    return this.http.get('/isLoggedIn' );
   }
 
   private validateCredentials(username: string, password: string): boolean {
@@ -43,5 +39,11 @@ export class AuthService {
     localStorage.setItem('email', email);
     localStorage.setItem('id', id.toString());
     this.loggedIn = true;
+  }
+
+  createUser(username: string, password: string, email: string) {
+
+    return this.http.post('/user/create', {username: username, password: password, email: email});
+
   }
 }
