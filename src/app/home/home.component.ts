@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FileStorageService} from "../services/File-storage.service";
+import {AuthService} from "../auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -13,10 +15,14 @@ export class HomeComponent implements OnInit {
   filesFull: any[];
   files:any;
   searchWord: string = '';
-   constructor(private _snackBar: MatSnackBar, private fileStorageService: FileStorageService) { }
+   constructor(private _snackBar: MatSnackBar,
+               private fileStorageService: FileStorageService,
+               private authService:AuthService,
+               private router:Router) { }
 
   ngOnInit(): void {
      this.files = this.filesFull;
+     this.checkLoggedIn()
   }
 
   onSearch() {
@@ -83,4 +89,20 @@ export class HomeComponent implements OnInit {
   isEmpty() {
     return this.filesForUpload.length == 0;
   }
+
+  private checkLoggedIn() {
+    this.authService.isLoggedIn().subscribe((data) => {
+      //   //   this.fileStorageService.getFiles().subscribe((data) => {
+      //   //     this.filesFull = data;
+      //   //     this.files = data;
+      //   //   }, error => {
+      //   //     console.log(error);
+      //   //   });
+      this._snackBar.open("Login efetuado com sucesso!", 'Close', {duration: 1000});
+    }, error => {
+      this.router.navigate(['/login']);
+    });
+
+    }
+
 }
