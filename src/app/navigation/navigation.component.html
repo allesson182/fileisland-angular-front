@@ -18,11 +18,10 @@
         </button>
       </div>
       <img class="spacer" src="/assets/logo.png" alt="image" style="height: 100px ">
-<!--      logout button in the end of the div-->
-      <div class="align-content-between"></div>
-      <div class="align-content-center">
-        <button type="button" class=" d-flex justify-content-start btn btn-danger" (click)="logout()">Logout</button>
-      </div>
+      <span class="ml-auto">
+    <button type="button" class="btn btn-danger" (click)="logout()">Logout</button>
+  </span>
+
     </mat-toolbar>
 
     <router-outlet></router-outlet>

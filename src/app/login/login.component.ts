@@ -20,13 +20,12 @@ export class LoginComponent {
 
   onSubmit(): void {
      this.authService.login(this.username, this.password).subscribe((data) => {
-       console.log(data);
         this.authService.saveUserOnLocalStorage(data.username, data.token, data.email, data.id);
         this.toast.open("Login efetuado com sucesso!", 'Close', {duration: 1000});
         this.router.navigate(['/home']);
      }, error => {
         console.log(error);
-        this.toast.open("Erro ao efetuar login!", 'Close', {});
+        this.toast.open("Erro ao efetuar login!", 'Close', {duration: 1000});
      });
 
 

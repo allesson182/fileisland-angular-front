@@ -15,36 +15,59 @@ export class HttpService {
 
 
 
-  get(url: string, body?, headers?: Map<string,string>): Observable<any> {
-
+  get(url: string,  headers?: Map<string,string>): Observable<any> {
     let defaultHeaders = headers? this.getDefaultHeaders(headers) : this.getDefaultHeaders();
-
-    return this.http.get(this.baseUrl + url,  {params: null, headers: defaultHeaders});
+    return this.http.get(this.baseUrl + url, {headers: defaultHeaders});
   }
 
-post(url: string, body?, headers?): Observable<any> {
-    return this.http.post(this.baseUrl + url, body, {headers: headers});
+post(url: string, body?, headers?: Map<string,string>): Observable<any> {
+  let defaultHeaders = headers? this.getDefaultHeaders(headers) : this.getDefaultHeaders();
+    return this.http.post(this.baseUrl + url, body, {headers: defaultHeaders});
   }
+postFile(url: string, file:File, headers?: Map<string,string>): Observable<any> {
+  const headersConfig = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT, OPTIONS',
+    'token': localStorage.getItem('token')
+  };
+  let hd = new HttpHeaders(headersConfig);
+  const formData: FormData = new FormData();
+  formData.append('userId', headers.get('userId'));
+  formData.append('objectKey', headers.get('objectKey'));
+  formData.append('file', file, file.name);
 
-put(url: string, body?,headers?): Promise<any> {
-    return this.http.put(this.baseUrl + url, body, {headers: headers}).toPromise();
+  return this.http.post(this.baseUrl + url, formData, {headers: hd});
+
+}
+
+
+  put(url: string, body?,headers?): Observable<any>{
+  let defaultHeaders = headers? this.getDefaultHeaders(headers) : this.getDefaultHeaders();
+  return this.http.put(this.baseUrl + url, null, { headers: defaultHeaders});
   }
-  delete(url: string, body?,headers?): Promise<any> {
-    return this.http.delete(this.baseUrl + url, {params: body, headers: headers}).toPromise();
+  delete(url: string, headers?: Map<string,string>): Observable<any> {
+    let defaultHeaders = headers? this.getDefaultHeaders(headers) : this.getDefaultHeaders();
+    // console.log(defaultHeaders.keys())
+    return this.http.delete(this.baseUrl + url, { headers: defaultHeaders});
   }
   private getDefaultHeaders(plusHeaders?: Map<string, string>): HttpHeaders {
 
     const headersConfig = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT, OPTIONS',
         'token': localStorage.getItem('token')
     };
 
-    // if (plusHeaders) {
-    //   plusHeaders.forEach((value, key) => {
-    //     headersConfig[key] = value;
-    //   });}
+    if (plusHeaders) {
+      plusHeaders.forEach((value, key) => {
+        headersConfig[key] = value;
+      });}
       return  new HttpHeaders(headersConfig);
 
+  }
+
+  getFile(s: string, param2: {headers: HttpHeaders; responseType: string}) {
+    return undefined;
   }
 }

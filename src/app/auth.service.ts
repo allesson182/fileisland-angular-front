@@ -8,7 +8,6 @@ import {HttpService} from "./services/Http.Service";
   providedIn: 'root'
 })
 export class AuthService {
-  private loggedIn = false;
 
 
   constructor(private http: HttpService) { }
@@ -21,11 +20,9 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     localStorage.removeItem('id');
-    this.loggedIn = false;
   }
 
   isLoggedIn() {
-    this.loggedIn = false;
     return this.http.get('/isLoggedIn' );
   }
 
@@ -38,7 +35,6 @@ export class AuthService {
     localStorage.setItem('token', token);
     localStorage.setItem('email', email);
     localStorage.setItem('id', id.toString());
-    this.loggedIn = true;
   }
 
   createUser(username: string, password: string, email: string) {

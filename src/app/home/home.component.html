@@ -1,22 +1,45 @@
-<div class="container">
-  <div style="padding: 15px;">
+<div style="background: linear-gradient(60deg, rgba(84,58,183,1) 0%, rgba(0,172,193,1) 100%);">
+
+<div class="container" style="">
+  <div style="padding: 15px; ">
     <div>
+      <label class="uploadzone"> <input type="file" hidden (change)="onFileChangeInput($event)" multiple>
+
       <div class="uploadzone" fileDragDrop (filesChangeEmiter)="onFileChange($event)">
-        <div class="text-wrapper">
-          <div class="centered">Drop here!<br> Or <br>
-            <input type="file" name="file" id="file" (change)="onFileChangeInput($event)"  multiple hidden="hidden">
-            <label for="file"><span class="">Select your file</span> </label>
+        <div>
+          <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+               viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+              <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+              <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
+              <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+              <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+              <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+            </g>
+          </svg>
+        </div>
+        <div class="text-wrapper content flex">
+          <div class="centered">Drop here!<br><br> Or <br><br>
+            <span class="btn btn-primary">
+              Click here to upload
+            </span>
           </div>
         </div>
       </div>
+      </label>
     </div>
     <div>
       <mat-list>
-        <h3 mat-subheader>Files for upload</h3>
+        <h3 mat-subheader>Files for upload<button class="filter btn btn-dark"> FILTER</button></h3>
+
+
         <mat-list-item *ngFor="let file of filesForUpload">
           <mat-icon mat-list-icon>folder</mat-icon>
           <h4 mat-line>{{file.name}}</h4>
-          <button mat-raised-button color="warn" (click)="deleteFile(file)">Delete</button>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          <button mat-raised-button color="warn" (click)="deleteFromUploadList(file)">Delete</button>
           <mat-divider></mat-divider>
         </mat-list-item>
       </mat-list>
@@ -39,19 +62,39 @@
   <div class="row">
     <div class="col-md-3" *ngFor="let file of files">
       <div class="card text-white bg-dark mb-3">
-        <div class="card-header d-flex justify-content-between align-items-center ">{{file.nome}}
-            <div>
-              <mat-icon class="delete-icon" >delete</mat-icon>
-              <mat-icon class="download-icon" (click)="download()">download</mat-icon></div>
+        <div class="card-header d-flex justify-content-between align-items-center card-title-header">{{this.formatKey(file.key)}}
+
             </div>
         <div class="card-body">
-          <h5 class="card-title">Arquivo de imagem</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <h5 class="card-title"> ~~~~~~</h5>
+          <p class="card-text">
+            Last Modified: {{this.formateDate(file.lastModified)}}<br>
+            Size: {{this.formatSize(file.size)}}<br>
+            Type: {{this.getType(file.key)}}<br>
+            <br>
+
+            <mat-icon class="delete-icon" title="Delete" (click)="deleteFile(file)">delete</mat-icon>
+            <mat-icon class="download-icon" title="Download" (click)="download()">download</mat-icon>
+
+          </p>
         </div>
       </div>
     </div>
   </div>
-
-
-
 </div>
+  <div>
+    <svg class="waves2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+         viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+      <defs>
+        <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+      </defs>
+      <g class="parallax">
+        <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
+        <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+        <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+        <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+      </g>
+    </svg>
+  </div>
+</div>
+

@@ -1,40 +1,50 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {HttpService} from "./Http.Service";
+import {UserService} from "./User.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileStorageService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private httpService: HttpService, private userService:UserService) { }
 
   downloadFile(objectKey: string): Observable<Blob> {
     const headers = new HttpHeaders().set('Accept', 'application/octet-stream');
-    return this.http.get(`/download/${objectKey}`, {
+    return this.httpService.getFile(`/download/${objectKey}`, {
       headers: headers,
       responseType: 'blob'
     });
   }
 
   uploadFile(objectKey: string, file: File): Observable<any> {
-    var userId = 'seu-usuario'; // Substitua pelo seu usuário
-    const formData: FormData = new FormData();
-    formData.append('file', file, file.name);
-
-    return this.http.post(
-      `URL_DO_SEU_ENDPOINT/uploadObject/${userId}/${objectKey}`,
-      formData
-    );
+    var userId = this.userService.getLoggedUser().id
+    let headers = new Map<string, string>();
+    headers.set('userId', userId.toString());
+    headers.set('objectKey', objectKey);
+    headers.set('Content-Type', 'multipart/form-data');
+    return this.httpService.postFile(`/s3/upload`, file, headers);
   }
 
   deleteFile(objectKey) {
-    var userId = 'seu-usuario'; // Substitua pelo seu usuário
-    return this.http.delete(`URL_DO_SEU_ENDPOINT/deleteObject/${userId}/${objectKey}`);
+    let headers = new Map<string, string>();
+    headers.set('userId', this.userService.getLoggedUser().id.toString());
+    headers.set('objectKey', objectKey);
+    return this.httpService.delete(`/s3`, headers);
   }
 
-  listFiles() {
-    let body = {}
-    return this.http.get(`/s3/list`);
+  listFiles(searchWord: string, page: number, pageSize: number) {
+    searchWord = searchWord ? searchWord : '';
+    page = page ? page : 0;
+    pageSize = pageSize ? pageSize : 10;
+    let headers = new Map<string, string>();
+    headers.set('userID', this.userService.getLoggedUser().id.toString());
+    headers.set('searchWord', searchWord);
+    headers.set('page', page.toString());
+    headers.set('pageSize', pageSize.toString());
+
+    return this.httpService.get(`/s3/list`,  headers);
   }
 }

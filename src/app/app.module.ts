@@ -21,6 +21,7 @@ import {FormsModule} from "@angular/forms";
 import {FileDragNDropDirective} from "./home/file-drag-n-drop.directive";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {HttpClientModule} from "@angular/common/http";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 
 @NgModule({
@@ -33,24 +34,25 @@ import {HttpClientModule} from "@angular/common/http";
     FileDragNDropDirective
 
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MatListModule,
-    BrowserAnimationsModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    NgbModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatSnackBarModule,
-    HttpClientModule
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        MatListModule,
+        BrowserAnimationsModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        NgbModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatSnackBarModule,
+        HttpClientModule,
+        MatProgressBarModule
 
-  ],
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
