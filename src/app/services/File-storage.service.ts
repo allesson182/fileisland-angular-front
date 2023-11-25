@@ -11,12 +11,15 @@ export class FileStorageService {
 
   constructor(private httpService: HttpService, private userService:UserService) { }
 
-  downloadFile(objectKey: string): Observable<Blob> {
-    const headers = new HttpHeaders().set('Accept', 'application/octet-stream');
-    return this.httpService.getFile(`/download/${objectKey}`, {
-      headers: headers,
-      responseType: 'blob'
-    });
+  downloadFile(objectKey: string, size:string | number): Observable<Blob> {
+
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/octet-stream')
+      .set('userId', this.userService.getLoggedUser().id.toString())
+      .set('objectKey', objectKey)
+      .set('token', localStorage.getItem('token'))
+      .set('size', size.toString());
+    return this.httpService.getFile(`/s3/download`, headers )
   }
 
   uploadFile(objectKey: string, file: File): Observable<any> {

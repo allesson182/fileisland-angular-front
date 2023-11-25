@@ -51,13 +51,23 @@ postFile(url: string, file:File, headers?: Map<string,string>): Observable<any> 
     return this.http.delete(this.baseUrl + url, { headers: defaultHeaders});
   }
   private getDefaultHeaders(plusHeaders?: Map<string, string>): HttpHeaders {
-
-    const headersConfig = {
+    let token = localStorage.getItem('token')? localStorage.getItem('token') : '';
+    let headersConfig ={};
+    if(token.length > 2) {
+       headersConfig = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT, OPTIONS',
-        'token': localStorage.getItem('token')
-    };
+        'token': localStorage.getItem('token')? localStorage.getItem('token') : ''
+      };
+    }else {
+       headersConfig = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT, OPTIONS'
+      };
+    }
+
 
     if (plusHeaders) {
       plusHeaders.forEach((value, key) => {
@@ -67,7 +77,7 @@ postFile(url: string, file:File, headers?: Map<string,string>): Observable<any> 
 
   }
 
-  getFile(s: string, param2: {headers: HttpHeaders; responseType: string}) {
-    return undefined;
+  getFile(url: string, headers?: HttpHeaders): Observable<any> {
+    return this.http.get(this.baseUrl + url, {headers: headers, responseType: 'blob'});
   }
 }

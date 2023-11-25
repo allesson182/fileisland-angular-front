@@ -36,9 +36,6 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  download() {
-    console.log('download')
-  }
   onFileChange(pFileList: File[]){
     this.filesForUpload.push(...pFileList)
     this.filesForUpload.forEach((file) => {
@@ -70,19 +67,23 @@ export class HomeComponent implements OnInit {
 
   }
 
-  downloadFile() {
-    const bucketName = 'seu-bucket'; // Substitua pelo nome do seu bucket
-    const objectKey = 'seu-arquivo.txt'; // Substitua pelo nome do seu arquivo
-    this.fileStorageService.downloadFile(objectKey).subscribe((data) => {
+  downloadFile(s3Object: S3Object) {
+    console.log(s3Object)
+   let key = this.formatKey(s3Object.key);
+    let size = s3Object.size;
+    this.fileStorageService.downloadFile(key, size).subscribe((data) => {
       const blob = new Blob([data], { type: 'application/octet-stream' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = objectKey; // Nome do arquivo
+      a.download = key; // Nome do arquivo
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
-    });
+    }), error => {
+      console.log(error);
+      this._snackBar.open(key.concat(": Erro ao baixar arquivo"), "Close", {duration: 1000});
+    };
   }
   uploadFile() {
     this.filesForUpload.forEach((file) => {
@@ -97,7 +98,7 @@ export class HomeComponent implements OnInit {
   isEmpty() {
     return this.filesFull.length == 0;
   }
-  private getUserFiles() {
+   getUserFiles() {
     this.authService.isLoggedIn().subscribe((data) => {
           this.fileStorageService.listFiles(this.searchWord, 0, 30).subscribe((data) => {
             this.filesFull = data;
