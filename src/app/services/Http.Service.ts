@@ -20,8 +20,8 @@ export class HttpService {
     return this.http.get(this.baseUrl + url, {headers: defaultHeaders});
   }
 
-post(url: string, body?, headers?: Map<string,string>): Observable<any> {
-  let defaultHeaders = headers? this.getDefaultHeaders(headers) : this.getDefaultHeaders();
+post(url: string, body?, headers?: Map<string,string>, needToken?:boolean): Observable<any> {
+  let defaultHeaders = headers? this.getDefaultHeaders(headers, needToken) : this.getDefaultHeaders(null, needToken);
     return this.http.post(this.baseUrl + url, body, {headers: defaultHeaders});
   }
 postFile(url: string, file:File, headers?: Map<string,string>): Observable<any> {
@@ -50,10 +50,12 @@ postFile(url: string, file:File, headers?: Map<string,string>): Observable<any> 
     // console.log(defaultHeaders.keys())
     return this.http.delete(this.baseUrl + url, { headers: defaultHeaders});
   }
-  private getDefaultHeaders(plusHeaders?: Map<string, string>): HttpHeaders {
+  private getDefaultHeaders(plusHeaders?: Map<string, string>, needToken?:boolean): HttpHeaders {
+    needToken = needToken == null;
     let token = localStorage.getItem('token')? localStorage.getItem('token') : '';
     let headersConfig ={};
-    if(token.length > 2) {
+
+    if(token.length > 2 && needToken) {
        headersConfig = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',

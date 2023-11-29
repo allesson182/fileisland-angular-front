@@ -30,4 +30,8 @@ export class LoginComponent {
 
 
   }
+
+  registerRedirect() {
+    this.router.navigate(['/create-user']);
+  }
 }

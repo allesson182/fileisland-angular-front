@@ -13,7 +13,7 @@ export class AuthService {
   constructor(private http: HttpService) { }
 
   login(username: string, password: string): Observable<any> {
-      return this.http.post('/login', {login: username, password: password});
+      return this.http.post('/login', {login: username, password: password}, null, false);
   }
   logout(): void {
     localStorage.removeItem('username');
@@ -39,7 +39,7 @@ export class AuthService {
 
   createUser(username: string, password: string, email: string) {
 
-    return this.http.post('/user/create', {username: username, password: password, email: email});
+    return this.http.post('/user/create', {username: username, password: password, email: email}, null, false);
 
   }
 }
